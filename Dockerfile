@@ -3,12 +3,8 @@ FROM ollama/ollama:latest
 # Expose Ollama port
 EXPOSE 11434
 
-# Create startup script
-RUN echo '#!/bin/bash\n\
-ollama serve &\n\
-sleep 5\n\
-ollama pull nomic-embed-text\n\
-wait' > /start.sh && chmod +x /start.sh
+# Override entrypoint and create proper startup script
+ENTRYPOINT []
 
-# Start Ollama server and pull model
-CMD ["/start.sh"]
+# Create startup script that runs ollama serve and pulls model
+CMD ["/bin/bash", "-c", "ollama serve & sleep 10 && ollama pull nomic-embed-text && wait"]
